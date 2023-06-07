@@ -11,9 +11,26 @@ import { dataUsersState } from "../recoil/atoms";
 const Dashboard = () => {
 	const setDataUsers = useSetRecoilState(dataUsersState);
 
+	const getRandomStatus = () => {
+		const statusOptions = [
+			{ status: "Free", statusColor: "#0064FF" },
+			{ status: "Busy", statusColor: "#F63F3F" },
+			{ status: "Working", statusColor: "#404D61" },
+			{ status: "On Vacation", statusColor: "#F9A348" },
+		];
+		const randomNumber = Math.floor(Math.random() * statusOptions.length);
+
+		return statusOptions[randomNumber];
+	};
+
 	const getUsers = async () => {
 		const res = await axios.get(USERS_API_URL);
-		setDataUsers(res.data.users);
+		const dataUsersWithStatus = res.data.users.map((user) => ({
+			...user,
+			userStatus: getRandomStatus(),
+		}));
+
+		setDataUsers(dataUsersWithStatus);
 	};
 
 	useEffect(() => {

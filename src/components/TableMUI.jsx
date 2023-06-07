@@ -180,7 +180,12 @@ const TableMUI = () => {
 									<StyledTableCell>
 										{user.email}
 									</StyledTableCell>
-									<StyledTableCell>status</StyledTableCell>
+									<StyledTableCell
+										sx={{
+											color: `${user.userStatus.statusColor}`,
+										}}>
+										{user.userStatus.status}
+									</StyledTableCell>
 									<StyledTableCell>
 										{user.company.title}
 									</StyledTableCell>
