@@ -14,6 +14,7 @@ import SearchInput from "./SearchInput";
 import { TrashIcon } from "../assets/svgButton";
 import { useRecoilState } from "recoil";
 import { dataUsersState } from "../recoil/atoms";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -172,10 +173,35 @@ const TableMUI = () => {
 							.map((user, index) => (
 								<StyledTableRow key={index}>
 									<StyledTableCell
-										sx={{ paddingLeft: 6 }}
+										sx={{
+											paddingLeft: 6,
+											display: "flex",
+											alignItems: "center",
+										}}
 										component="th"
 										scope="row">
-										{user.firstName} {user.lastName}
+										<div
+											style={{
+												backgroundColor: `${user.eyeColor}`,
+												width: 30,
+												height: 30,
+												borderRadius: 30,
+												marginRight: 20,
+											}}>
+											<img
+												src={user.image}
+												alt="user-image"
+												style={{
+													width: 30,
+													height: 30,
+													borderRadius: 30,
+												}}
+											/>
+										</div>
+
+										<p>
+											{user.firstName} {user.lastName}
+										</p>
 									</StyledTableCell>
 									<StyledTableCell>
 										{user.email}
@@ -191,9 +217,11 @@ const TableMUI = () => {
 									</StyledTableCell>
 									<StyledTableCell
 										style={{ display: "flex" }}>
-										<button id="btn-edit">
+										<Link
+											to={`/edit/${user.id}`}
+											id="btn-edit">
 											<EditOutlinedIcon className="icon-edit" />
-										</button>
+										</Link>
 
 										<button
 											id="btn-trash"
