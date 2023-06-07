@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Sidebar from "../components/SidebarMUI";
 import TableMUI from "../components/TableMUI";
 import axios from "axios";
 import { USERS_API_URL } from "../utils/config";
+import { useSetRecoilState } from "recoil";
+import { dataUsersState } from "../recoil/atoms";
 
 const Dashboard = () => {
-	const [dataUsers, setDataUsers] = useState([]);
+	const setDataUsers = useSetRecoilState(dataUsersState);
 
 	const getUsers = async () => {
 		const res = await axios.get(USERS_API_URL);
@@ -27,7 +29,7 @@ const Dashboard = () => {
 				<Box
 					component="main"
 					sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-					<TableMUI dataUsers={dataUsers} />
+					<TableMUI />
 				</Box>
 			</Box>
 		</div>

@@ -12,6 +12,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SearchInput from "./SearchInput";
 import { TrashIcon } from "../assets/svgButton";
+import { useRecoilState } from "recoil";
+import { dataUsersState } from "../recoil/atoms";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -32,10 +34,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	},
 }));
 
-const TableMUI = ({ dataUsers }) => {
+const TableMUI = () => {
 	const [page, setPage] = useState(1);
-	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const rowsPerPage = 10;
 	const [search, setSearch] = useState("");
+	const [dataUsers, setDataUsers] = useRecoilState(dataUsersState);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -55,11 +58,16 @@ const TableMUI = ({ dataUsers }) => {
 
 	const handleChangeSearch = (e) => {
 		setSearch(e.target.value);
-		setPage(0);
+		setPage(1);
 	};
 
 	const handleClearSearch = () => {
 		setSearch("");
+	};
+
+	const handleDelete = (id) => {
+		let newDataUsers = dataUsers.filter((data) => data.id !== id);
+		setDataUsers(newDataUsers);
 	};
 
 	return (
@@ -158,8 +166,8 @@ const TableMUI = ({ dataUsers }) => {
 					<TableBody>
 						{searchDataUsers
 							.slice(
-								page * rowsPerPage,
-								page * rowsPerPage + rowsPerPage
+								(page - 1) * rowsPerPage,
+								(page - 1) * rowsPerPage + rowsPerPage
 							)
 							.map((user, index) => (
 								<StyledTableRow key={index}>
@@ -182,7 +190,11 @@ const TableMUI = ({ dataUsers }) => {
 											<EditOutlinedIcon className="icon-edit" />
 										</button>
 
-										<button id="btn-trash">
+										<button
+											id="btn-trash"
+											onClick={() =>
+												handleDelete(user.id)
+											}>
 											<TrashIcon />
 										</button>
 									</StyledTableCell>
