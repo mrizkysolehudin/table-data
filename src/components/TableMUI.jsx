@@ -10,8 +10,8 @@ import Paper from "@mui/material/Paper";
 import PaginationMUI from "./PaginationMUI";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import trashIcon from "../assets/trashIcon.svg";
 import SearchInput from "./SearchInput";
+import { TrashIcon } from "../assets/svgButton";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -178,17 +178,13 @@ const TableMUI = ({ dataUsers }) => {
 									</StyledTableCell>
 									<StyledTableCell
 										style={{ display: "flex" }}>
-										<EditOutlinedIcon
-											style={{
-												color: "#757D8A",
-												opacity: 0.6,
-												marginRight: 18,
-												height: 22,
-												width: 22,
-											}}
-										/>
+										<button id="btn-edit">
+											<EditOutlinedIcon className="icon-edit" />
+										</button>
 
-										<img src={trashIcon} alt="" />
+										<button id="btn-trash">
+											<TrashIcon />
+										</button>
 									</StyledTableCell>
 								</StyledTableRow>
 							))}

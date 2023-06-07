@@ -11,7 +11,7 @@ const Sidebar = () => {
 	const drawerWidth = 250;
 
 	return (
-		<div>
+		<div id="sidebar">
 			<Drawer
 				sx={{
 					width: drawerWidth,
@@ -45,7 +45,11 @@ const Sidebar = () => {
 							<img
 								src={avatar}
 								alt="avatar-profile"
-								style={{ width: 40, height: 40 }}
+								style={{
+									width: 40,
+									height: 40,
+									cursor: "pointer",
+								}}
 							/>
 
 							<div
@@ -106,12 +110,19 @@ const Sidebar = () => {
 										outline: 0,
 									}}
 								/>
-								<DensityMediumIcon
+
+								<button
 									style={{
-										color: "#757D8A",
-										fontWeight: 100,
-									}}
-								/>
+										padding: "6px 4px",
+										borderRadius: 2,
+									}}>
+									<DensityMediumIcon
+										style={{
+											color: "#757D8A",
+											fontWeight: 100,
+										}}
+									/>
+								</button>
 							</div>
 
 							<div
@@ -149,12 +160,19 @@ const Sidebar = () => {
 										Data Table
 									</p>
 								</div>
-								<DensityMediumIcon
+
+								<button
 									style={{
-										color: "#757D8A",
-										fontWeight: 100,
-									}}
-								/>
+										padding: "6px 4px",
+										borderRadius: 2,
+									}}>
+									<DensityMediumIcon
+										style={{
+											color: "#757D8A",
+											fontWeight: 100,
+										}}
+									/>
+								</button>
 							</div>
 						</section>
 					</div>
