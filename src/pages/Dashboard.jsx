@@ -19,7 +19,7 @@ const Dashboard = () => {
 	}, []);
 
 	return (
-		<div style={{ width: 1366, backgroundColor: "blue" }}>
+		<div style={{ width: 1366 }}>
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
 				<Sidebar />

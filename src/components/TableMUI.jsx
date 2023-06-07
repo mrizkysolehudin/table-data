@@ -69,7 +69,8 @@ const TableMUI = ({ dataUsers }) => {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-between",
-					margin: "30px 35px",
+					height: 114,
+					margin: "0 30px ",
 				}}>
 				<div>
 					<h1 style={{ fontSize: 28 }}>Data Tabel</h1>
@@ -89,7 +90,6 @@ const TableMUI = ({ dataUsers }) => {
 						justifyContent: "space-between",
 						alignItems: "center",
 						marginLeft: 31,
-						marginTop: 30,
 						marginBottom: 69,
 					}}>
 					<div>

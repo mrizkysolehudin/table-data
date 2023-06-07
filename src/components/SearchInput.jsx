@@ -1,20 +1,20 @@
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import searchIcon from "../assets/searchIcon.svg";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const SearchInput = ({ search, handleChangeSearch, handleClearSearch }) => {
 	return (
 		<div style={{ display: "flex" }}>
 			<div style={{ position: "relative" }}>
-				<SearchIcon
+				<img
+					src={searchIcon}
+					alt="search-icon"
 					style={{
-						color: "gray",
 						position: "absolute",
 						top: 8,
 						left: 35,
-						width: 30,
-						height: 30,
-						opacity: 0.9,
+						width: 25,
+						height: 25,
 					}}
 				/>
 
