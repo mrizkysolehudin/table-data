@@ -1,36 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Sidebar from "../components/SidebarMUI";
 import TableMUI from "../components/TableMUI";
 import axios from "axios";
 import { USERS_API_URL } from "../utils/config";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { dataUsersState } from "../recoil/atoms";
 
 const Dashboard = () => {
-	const setDataUsers = useSetRecoilState(dataUsersState);
-
-	const getRandomStatus = () => {
-		const statusOptions = [
-			{ status: "Free", statusColor: "#0064FF" },
-			{ status: "Busy", statusColor: "#F63F3F" },
-			{ status: "Working", statusColor: "#404D61" },
-			{ status: "On Vacation", statusColor: "#F9A348" },
-		];
-		const randomNumber = Math.floor(Math.random() * statusOptions.length);
-
-		return statusOptions[randomNumber];
-	};
+	const [dataUsers, setDataUsers] = useRecoilState(dataUsersState);
 
 	const getUsers = async () => {
 		const res = await axios.get(USERS_API_URL);
-		const dataUsersWithStatus = res.data.users.map((user) => ({
-			...user,
-			userStatus: getRandomStatus(),
-		}));
-
-		setDataUsers(dataUsersWithStatus);
+		setDataUsers(res.data);
 	};
 
 	useEffect(() => {

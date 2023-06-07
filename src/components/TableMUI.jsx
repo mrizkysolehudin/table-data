@@ -15,6 +15,8 @@ import { TrashIcon } from "../assets/svgButton";
 import { useRecoilState } from "recoil";
 import { dataUsersState } from "../recoil/atoms";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { USERS_API_URL } from "../utils/config";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -45,15 +47,16 @@ const TableMUI = () => {
 		setPage(newPage);
 	};
 
-	const searchDataUsers = dataUsers.filter((data) => {
+	const searchDataUsers = dataUsers?.filter((data) => {
 		return (
-			data.firstName.toLowerCase().includes(search.toLowerCase()) ||
-			data.lastName.toLowerCase().includes(search.toLowerCase()) ||
-			(data.firstName + " " + data.lastName)
+			data?.firstName.toLowerCase().includes(search.toLowerCase()) ||
+			data?.lastName.toLowerCase().includes(search.toLowerCase()) ||
+			(data?.firstName + " " + data?.lastName)
 				.toLowerCase()
 				.includes(search.toLowerCase()) ||
-			data.email.toString().includes(search.toLowerCase()) ||
-			data.company.title.toLowerCase().includes(search.toLowerCase())
+			data?.email.toString().includes(search.toLowerCase()) ||
+			data?.role.toLowerCase().includes(search.toLowerCase()) ||
+			data?.status.toLowerCase().includes(search.toLowerCase())
 		);
 	});
 
@@ -66,9 +69,11 @@ const TableMUI = () => {
 		setSearch("");
 	};
 
-	const handleDelete = (id) => {
-		let newDataUsers = dataUsers.filter((data) => data.id !== id);
-		setDataUsers(newDataUsers);
+	const handleDelete = async (id) => {
+		await axios.delete(`${USERS_API_URL}/${id}`);
+
+		const res = await axios.get(USERS_API_URL);
+		setDataUsers(res.data);
 	};
 
 	return (
@@ -182,7 +187,7 @@ const TableMUI = () => {
 										scope="row">
 										<div
 											style={{
-												backgroundColor: `${user.eyeColor}`,
+												backgroundColor: `${user.favoriteColor}`,
 												width: 30,
 												height: 30,
 												borderRadius: 30,
@@ -208,17 +213,17 @@ const TableMUI = () => {
 									</StyledTableCell>
 									<StyledTableCell
 										sx={{
-											color: `${user.userStatus.statusColor}`,
+											color: `${user.statusColor}`,
 										}}>
-										{user.userStatus.status}
+										{user.status}
 									</StyledTableCell>
 									<StyledTableCell>
-										{user.company.title}
+										{user.role}
 									</StyledTableCell>
 									<StyledTableCell
 										style={{ display: "flex" }}>
 										<Link
-											to={`/edit/${user.id}`}
+											to={`/edit/${user._id}`}
 											id="btn-edit">
 											<EditOutlinedIcon className="icon-edit" />
 										</Link>
@@ -226,7 +231,7 @@ const TableMUI = () => {
 										<button
 											id="btn-trash"
 											onClick={() =>
-												handleDelete(user.id)
+												handleDelete(user._id)
 											}>
 											<TrashIcon />
 										</button>

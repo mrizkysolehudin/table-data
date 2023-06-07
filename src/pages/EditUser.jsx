@@ -19,6 +19,8 @@ const EditUser = () => {
 		setUser(res.data);
 	};
 
+	console.log(user);
+
 	useEffect(() => {
 		getUserById();
 	}, [id]);
