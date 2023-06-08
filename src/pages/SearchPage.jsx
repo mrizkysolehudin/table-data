@@ -30,7 +30,7 @@ const SearchPage = () => {
 
 				<div
 					style={{ width: "80%", margin: "auto", padding: "20px 0" }}>
-					<h1>Search result</h1>
+					<h1>Search result{`: ${searchResult.length}`}</h1>
 					{searchResult.length ? (
 						<>
 							<Table
