@@ -5,11 +5,11 @@ import searchIcon from "../assets/searchIcon.svg";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import PowerOffIcon from "@mui/icons-material/PowerSettingsNew";
 import supportIcon from "../assets/supportIcon.svg";
-import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilValue } from "recoil";
 import { dataUsersState } from "../recoil/atoms";
 import { Link } from "react-router-dom";
 import MenuButton from "./MenuButton";
+import CloseButton from "./CloseButton";
 
 const Sidebar = () => {
 	const drawerWidth = 250;
@@ -135,19 +135,9 @@ const Sidebar = () => {
 								/>
 
 								{openSearch ? (
-									<button
+									<CloseButton
 										onClick={() => setOpenSearch(false)}
-										style={{
-											padding: "6px 4px",
-											borderRadius: 2,
-										}}>
-										<CloseIcon
-											style={{
-												color: "#757D8A",
-												fontWeight: 100,
-											}}
-										/>
-									</button>
+									/>
 								) : (
 									<MenuButton
 										onClick={() => setOpenSearch(true)}
@@ -228,19 +218,9 @@ const Sidebar = () => {
 								</div>
 
 								{openDataTable ? (
-									<button
+									<CloseButton
 										onClick={() => setOpenDataTable(false)}
-										style={{
-											padding: "6px 4px",
-											borderRadius: 2,
-										}}>
-										<CloseIcon
-											style={{
-												color: "#757D8A",
-												fontWeight: 100,
-											}}
-										/>
-									</button>
+									/>
 								) : (
 									<MenuButton
 										onClick={() => setOpenDataTable(true)}
