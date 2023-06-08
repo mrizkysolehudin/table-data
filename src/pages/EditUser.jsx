@@ -8,6 +8,7 @@ import axios from "axios";
 import { USERS_API_URL } from "../utils/config";
 import { useFormik } from "formik";
 import { statusOptions } from "../utils/constants";
+import BackButton from "../components/BackButton";
 
 const EditUser = () => {
 	const { id } = useParams();
@@ -83,6 +84,9 @@ const EditUser = () => {
 					width: 1366,
 					height: "100vh",
 				}}>
+				<div style={{ position: "absolute" }}>
+					<BackButton />
+				</div>
 				<div
 					style={{
 						width: 800,

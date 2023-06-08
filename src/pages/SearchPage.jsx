@@ -12,6 +12,7 @@ import NoResult from "../components/NoResult";
 import PaginationMUI from "../components/PaginationMUI";
 import { CssBaseline } from "@mui/material";
 import { Link } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 const SearchPage = () => {
 	const searchResult = useRecoilValue(searchResultState);
@@ -26,11 +27,7 @@ const SearchPage = () => {
 		<div style={{ backgroundColor: "#F1F2F6" }}>
 			<CssBaseline />
 			<div style={{ width: 1366, minHeight: 900 }}>
-				<div style={{ paddingTop: 40, paddingLeft: 140 }}>
-					<Link id="back" to="/" style={{ textDecoration: "none" }}>
-						back
-					</Link>
-				</div>
+				<BackButton />
 
 				<div
 					style={{ width: "80%", margin: "auto", padding: "20px 0" }}>
