@@ -2,7 +2,12 @@ import React from "react";
 import searchIcon from "../assets/searchIcon.svg";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-const SearchInput = ({ search, handleChangeSearch, handleClearSearch }) => {
+const SearchInput = ({
+	search,
+	handleChangeSearch,
+	handleClearSearch,
+	handleSearchClick,
+}) => {
 	return (
 		<div style={{ display: "flex" }}>
 			<div style={{ position: "relative" }}>
@@ -51,6 +56,7 @@ const SearchInput = ({ search, handleChangeSearch, handleClearSearch }) => {
 				/>
 			</div>
 			<button
+				onClick={handleSearchClick}
 				style={{
 					width: 90,
 					height: 45,

@@ -1,72 +1,70 @@
 import React, { useState } from "react";
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import PaginationMUI from "./PaginationMUI";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SearchInput from "./SearchInput";
-import { TrashIcon } from "../assets/svgButton";
-import { useRecoilState } from "recoil";
-import { dataUsersState } from "../recoil/atoms";
-import { Link } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { dataUsersState, searchResultState } from "../recoil/atoms";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { USERS_API_URL } from "../utils/config";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-	[`&.${tableCellClasses.head}`]: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	[`&.${tableCellClasses.body}`]: {
-		fontSize: 14,
-	},
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-	"&:nth-of-type(odd)": {
-		backgroundColor: theme.palette.action.hover,
-	},
-	"&:last-child td, &:last-child th": {
-		border: 0,
-	},
-}));
+import sortIcon from "../assets/sortIcon.svg";
+import formatDate from "../utils/formatDate";
+import DataTableBody from "./TableBodyMUI";
+import NoResult from "./NoResult";
 
 const TableMUI = () => {
+	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 10;
-	const [search, setSearch] = useState("");
+
 	const [dataUsers, setDataUsers] = useRecoilState(dataUsersState);
+	const [filterDate, setFilterDate] = useState("");
+	const [searchTerm, setSearchTerm] = useState("");
+	const setSearchResult = useSetRecoilState(searchResultState);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
 
-	const searchDataUsers = dataUsers?.filter((data) => {
-		return (
-			data?.firstName.toLowerCase().includes(search.toLowerCase()) ||
-			data?.lastName.toLowerCase().includes(search.toLowerCase()) ||
-			(data?.firstName + " " + data?.lastName)
-				.toLowerCase()
-				.includes(search.toLowerCase()) ||
-			data?.email.toString().includes(search.toLowerCase()) ||
-			data?.role.toLowerCase().includes(search.toLowerCase()) ||
-			data?.status.toLowerCase().includes(search.toLowerCase())
-		);
-	});
+	const handleSearchClick = (e) => {
+		e.preventDefault();
 
-	const handleChangeSearch = (e) => {
-		setSearch(e.target.value);
-		setPage(1);
+		const searchDataUsers = dataUsers?.filter((data) => {
+			return (
+				data?.firstName
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				data?.lastName
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				(data?.firstName + " " + data?.lastName)
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				data?.email.toString().includes(searchTerm.toLowerCase()) ||
+				data?.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				data?.userStatus?.status
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase())
+			);
+		});
+
+		setSearchTerm(e.target.value);
+		setSearchResult(searchDataUsers);
+
+		setTimeout(() => {
+			navigate("/search");
+		}, 1000);
 	};
 
 	const handleClearSearch = () => {
-		setSearch("");
+		setSearchTerm("");
 	};
 
 	const handleDelete = async (id) => {
@@ -74,6 +72,17 @@ const TableMUI = () => {
 
 		const res = await axios.get(USERS_API_URL);
 		setDataUsers(res.data);
+	};
+
+	const filterDateDataUsers = dataUsers?.filter((data) => {
+		return formatDate(data?.accountDate)
+			.toLowerCase()
+			.includes(filterDate.toLowerCase());
+	});
+
+	const handleFilterDate = (e) => {
+		setFilterDate(e.target.value);
+		setPage(1);
 	};
 
 	return (
@@ -91,9 +100,10 @@ const TableMUI = () => {
 				</div>
 
 				<SearchInput
-					search={search}
-					handleChangeSearch={handleChangeSearch}
+					search={searchTerm}
+					handleChangeSearch={(e) => setSearchTerm(e.target.value)}
 					handleClearSearch={handleClearSearch}
+					handleSearchClick={handleSearchClick}
 				/>
 			</section>
 
@@ -117,13 +127,64 @@ const TableMUI = () => {
 								color: "#757D8A",
 								textAlign: "start",
 							}}>
-							{search
-								? `${searchDataUsers.length} results found`
-								: `${dataUsers.length} data users`}
+							{filterDate
+								? `${filterDateDataUsers.length} results found`
+								: `${filterDateDataUsers.length} data users`}
 						</p>
 					</div>
 
-					<div></div>
+					<div
+						style={{
+							display: "flex",
+							gap: 20,
+							alignItems: "center",
+							marginRight: 70,
+						}}>
+						<button
+							id="btn-filter"
+							style={{
+								display: "flex",
+								color: "#757D8A",
+								border: "1px solid #E0E0E0",
+								width: 183,
+								height: 44,
+								borderRadius: 10,
+								justifyContent: "space-between",
+								alignItems: "center",
+								padding: "0px 20px ",
+								fontSize: 14,
+							}}>
+							<div>
+								<img
+									src={sortIcon}
+									alt="sort-icon"
+									style={{ marginTop: 4 }}
+								/>
+							</div>
+
+							<span>Filter by</span>
+						</button>
+
+						<input
+							value={filterDate}
+							onChange={handleFilterDate}
+							type="text"
+							placeholder="          August, 2021"
+							style={{
+								display: "flex",
+								color: "#757D8A",
+								border: "1px solid #E0E0E0",
+								width: 200,
+								height: 36,
+								borderRadius: 10,
+								justifyContent: "space-between",
+								alignItems: "center",
+								padding: "0 20px",
+								fontSize: 14,
+								outlineColor: "#E0E0E0",
+							}}
+						/>
+					</div>
 				</div>
 
 				<Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -170,74 +231,23 @@ const TableMUI = () => {
 					</TableHead>
 
 					<TableBody>
-						{searchDataUsers
-							.slice(
-								(page - 1) * rowsPerPage,
-								(page - 1) * rowsPerPage + rowsPerPage
-							)
-							.map((user, index) => (
-								<StyledTableRow key={index}>
-									<StyledTableCell
-										sx={{
-											paddingLeft: 6,
-											display: "flex",
-											alignItems: "center",
-										}}
-										component="th"
-										scope="row">
-										<div
-											style={{
-												backgroundColor: `${user.favoriteColor}`,
-												width: 30,
-												height: 30,
-												borderRadius: 30,
-												marginRight: 20,
-											}}>
-											<img
-												src={user.image}
-												alt="user-image"
-												style={{
-													width: 30,
-													height: 30,
-													borderRadius: 30,
-												}}
-											/>
-										</div>
-
-										<p>
-											{user.firstName} {user.lastName}
-										</p>
-									</StyledTableCell>
-									<StyledTableCell>
-										{user.email}
-									</StyledTableCell>
-									<StyledTableCell
-										sx={{
-											color: `${user.userStatus.statusColor}`,
-										}}>
-										{user.userStatus.status}
-									</StyledTableCell>
-									<StyledTableCell>
-										{user.role}
-									</StyledTableCell>
-									<StyledTableCell
-										style={{ display: "flex" }}>
-										<Link
-											to={`/edit/${user._id}`}
-											id="btn-edit">
-											<EditOutlinedIcon className="icon-edit" />
-										</Link>
-
-										<button
-											id="btn-trash"
-											onClick={() =>
-												handleDelete(user._id)
-											}>
-											<TrashIcon />
-										</button>
-									</StyledTableCell>
-								</StyledTableRow>
-							))}
+						{filterDateDataUsers?.length ? (
+							filterDateDataUsers
+								.slice(
+									(page - 1) * rowsPerPage,
+									(page - 1) * rowsPerPage + rowsPerPage
+								)
+								.map((user, index) => (
+									<DataTableBody
+										key={index}
+										user={user}
+										deleteAction
+										handleDelete={handleDelete}
+									/>
+								))
+						) : (
+							<NoResult />
+						)}
 					</TableBody>
 				</Table>
 

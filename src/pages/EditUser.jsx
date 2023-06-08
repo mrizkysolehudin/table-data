@@ -8,18 +8,6 @@ import axios from "axios";
 import { USERS_API_URL } from "../utils/config";
 import { useFormik } from "formik";
 import { statusOptions } from "../utils/constants";
-import * as Yup from "yup";
-
-const formSchema = Yup.object({
-	firstName: Yup.string().required("FirstName is required"),
-	lastName: Yup.string().required("LastName is required"),
-	email: Yup.string().required("Email is required"),
-	userStatus: Yup.object().shape({
-		status: Yup.string().required("Status is required"),
-		statusColor: Yup.string().required("Status color is required"),
-	}),
-	role: Yup.string().required("Role is required"),
-});
 
 const EditUser = () => {
 	const { id } = useParams();
@@ -75,7 +63,6 @@ const EditUser = () => {
 
 			handleUpdate(id, data);
 		},
-		validationSchema: formSchema,
 	});
 
 	return (
