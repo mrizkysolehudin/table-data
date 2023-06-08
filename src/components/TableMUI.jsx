@@ -24,6 +24,7 @@ const TableMUI = () => {
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 10;
 
+	const [isAscending, setIsAscending] = useState(false);
 	const [dataUsers, setDataUsers] = useRecoilState(dataUsersState);
 	const [filterDate, setFilterDate] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
@@ -91,6 +92,16 @@ const TableMUI = () => {
 		setPage(1);
 	};
 
+	const handleSorting = () => {
+		setIsAscending((prev) => !prev);
+	};
+
+	const sortedFilterData = filterDateDataUsers?.sort((a, b) => {
+		const dateA = new Date(a.accountDate);
+		const dateB = new Date(b.accountDate);
+		return isAscending ? dateA - dateB : dateB - dateA;
+	});
+
 	return (
 		<div>
 			<section
@@ -149,6 +160,7 @@ const TableMUI = () => {
 						}}>
 						<button
 							id="btn-filter"
+							onClick={handleSorting}
 							style={{
 								display: "flex",
 								color: "#757D8A",
@@ -165,7 +177,12 @@ const TableMUI = () => {
 								<img
 									src={sortIcon}
 									alt="sort-icon"
-									style={{ marginTop: 4 }}
+									style={{
+										marginTop: 4,
+										transform: isAscending
+											? "scaleY(-1)"
+											: "scaleY(1)",
+									}}
 								/>
 							</div>
 
@@ -239,7 +256,7 @@ const TableMUI = () => {
 
 					<TableBody>
 						{filterDateDataUsers?.length ? (
-							filterDateDataUsers
+							sortedFilterData
 								.slice(
 									(page - 1) * rowsPerPage,
 									(page - 1) * rowsPerPage + rowsPerPage
