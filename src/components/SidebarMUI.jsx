@@ -179,21 +179,24 @@ const Sidebar = () => {
 											flexDirection: "column",
 											marginTop: -15,
 										}}>
-										{searchTerm
-											? searchData?.map((user, index) => (
-													<Link
-														to={`/edit/${user?._id}`}
-														style={{
-															color: "#757474",
-															textDecoration:
-																"none",
-															padding: "8px 0",
-														}}>
-														{index + 1}.{" "}
-														{user.firstName}
-													</Link>
-											  ))
-											: ""}
+										{searchTerm ? (
+											searchData?.map((user, index) => (
+												<Link
+													to={`/edit/${user?._id}`}
+													style={{
+														color: "#757474",
+														textDecoration: "none",
+														padding: "8px 0",
+													}}>
+													{index + 1}.{" "}
+													{user.firstName}
+												</Link>
+											))
+										) : (
+											<p style={{ color: "#757474" }}>
+												Masukkan nama user yang dicari
+											</p>
+										)}
 									</div>
 								</article>
 							)}
