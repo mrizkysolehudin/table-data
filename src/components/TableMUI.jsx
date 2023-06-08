@@ -63,6 +63,12 @@ const TableMUI = () => {
 		}, 1000);
 	};
 
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter") {
+			handleSearchClick(e);
+		}
+	};
+
 	const handleClearSearch = () => {
 		setSearchTerm("");
 	};
@@ -104,6 +110,7 @@ const TableMUI = () => {
 					handleChangeSearch={(e) => setSearchTerm(e.target.value)}
 					handleClearSearch={handleClearSearch}
 					handleSearchClick={handleSearchClick}
+					handleKeyDown={handleKeyDown}
 				/>
 			</section>
 

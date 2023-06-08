@@ -7,6 +7,7 @@ const SearchInput = ({
 	handleChangeSearch,
 	handleClearSearch,
 	handleSearchClick,
+	handleKeyDown,
 }) => {
 	return (
 		<div style={{ display: "flex" }}>
@@ -26,6 +27,7 @@ const SearchInput = ({
 				<input
 					value={search}
 					onChange={handleChangeSearch}
+					onKeyDown={handleKeyDown}
 					type="text"
 					placeholder="Search"
 					style={{
