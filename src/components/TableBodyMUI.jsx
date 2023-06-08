@@ -2,8 +2,8 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { TrashIcon } from "../assets/svgButton";
 import EditButton from "./EditButton";
+import DeleteButton from "./DeleteButton";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -70,11 +70,7 @@ const DataTableBody = ({ user, handleDelete, deleteAction }) => {
 				<EditButton user={user} />
 
 				{deleteAction && (
-					<button
-						id="btn-trash"
-						onClick={() => handleDelete(user._id)}>
-						<TrashIcon />
-					</button>
+					<DeleteButton handleDelete={handleDelete} user={user} />
 				)}
 			</StyledTableCell>
 		</StyledTableRow>
