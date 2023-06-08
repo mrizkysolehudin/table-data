@@ -213,9 +213,9 @@ const TableMUI = () => {
 									</StyledTableCell>
 									<StyledTableCell
 										sx={{
-											color: `${user.statusColor}`,
+											color: `${user.userStatus.statusColor}`,
 										}}>
-										{user.status}
+										{user.userStatus.status}
 									</StyledTableCell>
 									<StyledTableCell>
 										{user.role}

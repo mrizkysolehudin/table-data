@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Sidebar from "../components/SidebarMUI";
@@ -29,7 +29,7 @@ const Dashboard = () => {
 				<Box
 					component="main"
 					sx={{ flexGrow: 1, bgcolor: "background.default" }}>
-					<TableMUI />
+					<TableMUI dataUsers={dataUsers} />
 				</Box>
 			</Box>
 		</div>
