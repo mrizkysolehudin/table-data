@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
-import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import avatar from "../assets/avatar.png";
 import searchIcon from "../assets/searchIcon.svg";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
@@ -10,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useRecoilValue } from "recoil";
 import { dataUsersState } from "../recoil/atoms";
 import { Link } from "react-router-dom";
+import MenuButton from "./MenuButton";
 
 const Sidebar = () => {
 	const drawerWidth = 250;
@@ -149,19 +149,9 @@ const Sidebar = () => {
 										/>
 									</button>
 								) : (
-									<button
+									<MenuButton
 										onClick={() => setOpenSearch(true)}
-										style={{
-											padding: "6px 4px",
-											borderRadius: 2,
-										}}>
-										<DensityMediumIcon
-											style={{
-												color: "#757D8A",
-												fontWeight: 100,
-											}}
-										/>
-									</button>
+									/>
 								)}
 							</div>
 
@@ -252,19 +242,9 @@ const Sidebar = () => {
 										/>
 									</button>
 								) : (
-									<button
+									<MenuButton
 										onClick={() => setOpenDataTable(true)}
-										style={{
-											padding: "6px 4px",
-											borderRadius: 2,
-										}}>
-										<DensityMediumIcon
-											style={{
-												color: "#757D8A",
-												fontWeight: 100,
-											}}
-										/>
-									</button>
+									/>
 								)}
 							</div>
 						</section>

@@ -11,7 +11,6 @@ import DataTableBody from "../components/TableBodyMUI";
 import NoResult from "../components/NoResult";
 import PaginationMUI from "../components/PaginationMUI";
 import { CssBaseline } from "@mui/material";
-import { Link } from "react-router-dom";
 import BackButton from "../components/BackButton";
 
 const SearchPage = () => {
